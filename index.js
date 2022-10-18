@@ -58,6 +58,6 @@ app.get("/upload", (req, res) => {
     res.send(req.query.image);
 });
 
-app.listen(80, ()=>{
-    console.log(`Running on localhost 80`);
+app.listen(3000, ()=>{
+    console.log(`Running on localhost 3000`);
 });
