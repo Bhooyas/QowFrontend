@@ -11,10 +11,10 @@
           #1a9599,
           #25b484
         );">
-            <div class="w-full h-full flex justify-center mt-8">
-            <div class="w-1/2 h-1/2 rounded-lg shadow-xl bg-gray-50">
+            <div class="w-full h-full flex justify-center lg:items-start items-center mt-8">
+            <div class="w-1/2 lg:h-1/2 h-1/4 rounded-lg shadow-xl bg-gray-50">
                 <div class="m-4">
-                    <label class="inline-block text-gray-500">File Upload</label>
+                    <label class="inline-block text-gray-500 lg:text-base text-3xl lg:py-0 py-2">File Upload</label>
                     <div class="flex items-center justify-center w-full h-4/6">
                         <label
                             class="flex flex-col w-full h-full border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
@@ -25,7 +25,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                 </svg>
-                                <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
+                                <p class="pt-1 lg:text-sm text-2xl tracking-wider text-gray-400 group-hover:text-gray-600">
                                     Attach a file</p>
                             </div>
                             <input type="file" class="opacity-0" onChange="showPreview(event)"/>
@@ -33,14 +33,16 @@
                     </div>
                 </div>
                 <div class="flex justify-center h-1/6 p-2">
-                    <button class="w-full px-4 py-2 text-white bg-blue-500 rounded shadow-xl" onclick="uplod_img()">Upload</button>
+                    <button class="w-full px-4 py-2 text-white bg-blue-500 rounded shadow-xl lg:text-base text-4xl" onclick="uplod_img()">Upload</button>
                 </div>
             </div>
         </div>
         <script>
           var src;
+          var temp;
           function showPreview(event){
-            src = (URL.createObjectURL(event.target.files[0]));
+            temp = event.target.files[0];
+            src = (URL.createObjectURL(temp));
             var preview = document.getElementById("preview");
             preview.src = src;
             preview.classList.add("h-full");
@@ -49,7 +51,13 @@
           }
 
           function uplod_img(){
-            window.location = `/upload?image=${src}`;
+            var reader = new window.FileReader();
+            reader.readAsDataURL(temp);
+            reader.onloadend = function () {
+                base64data = reader.result;
+                console.log(base64data);
+            }
+            // window.location = `/upload?image=${src}`;
           }
         </script>
     </body>

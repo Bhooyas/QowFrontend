@@ -66,7 +66,8 @@
                         >
                           Log in
                         </button>
-                        <a class="text-gray-500" href="#!">Forgot password?</a>
+                        <!-- <a class="text-gray-500" href="#!">Forgot password?</a> -->
+                        <button class="text-gray-500" type="button" onclick="forgotpasswordbutton()">Forgot Password</button>
                       </div>
 
 
@@ -102,16 +103,6 @@
         </div>
       </div>
     </section>
-
-    <!---
-    <form>
-      <h1>Please sign in</h1>
-
-      <input type="text" id="inputUsername"  placeholder="Email address" name="username" required autofocus>
-      <input type="password" id="inputPassword"  placeholder="Password" name="password" required>    
-      <button type="button" onclick="signInButton()">Sign in</button>
-
-    </form> -->
 
 
 <script>
@@ -152,6 +143,71 @@
         },
     });
   }
+
+  function forgotpasswordbutton() {
+
+var poolData = {
+
+    UserPoolId : _config.cognito.userPoolId, // Your user pool id here
+
+    ClientId : _config.cognito.clientId, // Your client id here
+
+};
+
+
+
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+
+
+var userData = {
+
+    Username : document.getElementById("inputUsername").value,
+
+    Pool : userPool,
+
+};
+
+if(userData.Username==""){
+  alert("Please enter email id");
+  return;
+}
+
+
+
+var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+    
+
+cognitoUser.forgotPassword({
+
+    onSuccess: function (result) {
+
+        console.log('call result: ' + result);
+
+    },
+
+    onFailure: function(err) {
+
+        alert(err);
+
+        console.log(err);
+
+    },
+
+    inputVerificationCode() {
+
+        var verificationCode = prompt('Please input verification code ' ,'');
+
+        var newPassword = prompt('Enter new password ' ,'');
+
+        cognitoUser.confirmPassword(verificationCode, newPassword, this);
+
+    }
+
+});
+
+}
 </script>
 </body>
 </html>
