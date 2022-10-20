@@ -3,14 +3,14 @@ Description=My Node Server
 After=multi-user.target
 
 [Service]
-ExecStart=/usr/bin/node /home/ec2-user/QowFrontend-main/index.js
+ExecStart=/usr/bin/node /home/ec2-user/QowFrontend/index.js
 Restart=always
 RestartSec=10
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=my-node-server
 User=ec2-user
-WorkingDirectory=/home/ec2-user/QowFrontend-main/
+WorkingDirectory=/home/ec2-user/QowFrontend/
 
 [Install]
 WantedBy=multi-user.target	
