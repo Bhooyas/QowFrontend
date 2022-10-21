@@ -133,8 +133,9 @@
     
 	cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
-			// var accessToken = result.getAccessToken().getJwtToken();
-      var accessToken = result[2].getValue();
+			var accessToken = result.getAccessToken().getJwtToken();
+      // var accessToken = result[2].getValue();
+      console.log(result);
 			console.log(`/logged/${accessToken}`);
       // alert("Login Sucessful, Welcome to your profile");
       window.location.href=`/logged/${accessToken}`;
