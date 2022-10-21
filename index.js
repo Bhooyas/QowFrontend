@@ -8,6 +8,7 @@ var s3 = new AWS.S3({apiVersion: "2006-03-01",params: { Bucket: "qowbucket" }});
 
 app.use('/src', express.static('src'));
 app.use('/js', express.static('js'));
+app.use('/css', express.static('css'));
 app.use(session({secret: 'ssshhhhh'}));
 
 app.get("/login", (req, res) => {
@@ -33,8 +34,7 @@ app.get("/logged/:accessToken", (req, res) => {
 app.get("/", (req,res) => {
     sess= req.session;
     if(sess.accessToken){
-        // res.send("LoggedIn");
-        res.sendFile(__dirname + "/uploadImage.html")
+        res.sendFile(__dirname + "/index.html")
     } else {
         res.redirect("/login");
     }
@@ -55,7 +55,12 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/upload", (req, res) => {
-    res.send(req.query.image);
+    sess= req.session;
+    if(sess.accessToken){
+        res.sendFile(__dirname + "/uploadImage.html")
+    } else {
+        res.redirect("/login");
+    }
 });
 
 app.listen(3000, ()=>{
