@@ -135,10 +135,11 @@
         onSuccess: function (result) {
 			var accessToken = result.getAccessToken().getJwtToken();
       // var accessToken = result[2].getValue();
-      console.log(result);
-			console.log(`/logged/${accessToken}`);
+      var email = result.getIdToken().payload.email
+			// console.log(`/logged/${accessToken}`);
       // alert("Login Sucessful, Welcome to your profile");
-      window.location.href=`/logged/${accessToken}`;
+      document.cookie = `email=${email}`;
+      window.location.href=`/logged/${email}`;
         },
 
         onFailure: function(err) {

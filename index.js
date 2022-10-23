@@ -1,39 +1,38 @@
 const express = require("express");
 const session = require("express-session");
-const AWS = require("aws-sdk");
+const cookieParser = require("cookie-parser");
 
 const app = express();
-AWS.config.update({region: "us-east-1",});
-var s3 = new AWS.S3({apiVersion: "2006-03-01",params: { Bucket: "qowbucket" }});
 
 app.use('/src', express.static('src'));
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
 app.use(session({secret: 'ssshhhhh'}));
+app.use(cookieParser());
 
 app.get("/login", (req, res) => {
     sess = req.session;
-    if(sess.accessToken)
+    if(sess.email || req.cookies.email)
         res.redirect("/");
     res.sendFile(__dirname + "/login.html");
 });
 
 app.get("/register", (req, res) => {
     sess = req.session;
-    if(sess.accessToken)
+    if(sess.email || req.cookies.email)
         res.redirect("/");
     res.sendFile(__dirname + "/register.html");
 });
 
-app.get("/logged/:accessToken", (req, res) => {
+app.get("/logged/:email", (req, res) => {
     sess = req.session;
-    sess.accessToken = req.params.accessToken;
+    sess.email = req.params.email;
     res.redirect("/");
 });
 
 app.get("/", (req,res) => {
     sess= req.session;
-    if(sess.accessToken){
+    if(sess.email || req.cookies.email){
         res.sendFile(__dirname + "/index.html")
     } else {
         res.redirect("/login");
@@ -41,7 +40,7 @@ app.get("/", (req,res) => {
 });
 
 app.get("/logout", (req, res) => {
-    if(sess.accessToken){
+    if(sess.email || req.cookies.email){
         req.session.destroy((err) => {
             if(err){
                 res.send(err);
@@ -56,7 +55,7 @@ app.get("/logout", (req, res) => {
 
 app.get("/upload", (req, res) => {
     sess= req.session;
-    if(sess.accessToken){
+    if(sess.email || req.cookies.email){
         res.sendFile(__dirname + "/uploadImage.html")
     } else {
         res.redirect("/login");
