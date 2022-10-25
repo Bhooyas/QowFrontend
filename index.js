@@ -41,6 +41,7 @@ app.get("/", (req,res) => {
 
 app.get("/logout", (req, res) => {
     if(sess.email || req.cookies.email){
+        res.clearCookie("email");
         req.session.destroy((err) => {
             if(err){
                 res.send(err);
