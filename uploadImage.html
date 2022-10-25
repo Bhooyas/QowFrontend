@@ -197,6 +197,7 @@
           var width = 224;
           var height = 224;
           var src = null;
+          // var url = "localhost:5000"
           var url = "http://54.211.54.175:5000/"
           function showPreview(event){
             src = (URL.createObjectURL(event.target.files[0]));
@@ -218,7 +219,8 @@
             var ctx = canvas.getContext("2d");
             ctx.drawImage(preview, 0, 0, width, height);
             var dataurl = canvas.toDataURL("image/png");
-            fetch(url, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({"image":dataurl})}).then((response)=>response.json()).
+            var email = document.cookie.match(new RegExp('(^| )email=([^;]+)'))[2]
+            fetch(url, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({"image":dataurl, "email": email})}).then((response)=>response.json()).
             then((data) => {
                 var output = document.getElementById("output");
                 output.innerHTML = `Cow is predicted as ${data.predicted} with probability of ${data.probability}`;
