@@ -33,8 +33,8 @@
                   <a class="nav-link tm-nav-link" href="#whatwedo">What We Do</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="/logout">Log Out</a>
-              </li>                  
+                  <a class="nav-link tm-nav-link" href="#" onclick="logout()">Log Out</a>
+              </li>
             </ul>
           </div>        
         </div>
@@ -142,6 +142,9 @@
     <script src="js/jquery.singlePageNav.min.js"></script>     
     <script src="js/bootstrap.min.js"></script> 
     <script>
+      function logout(){
+          window.location = "/logout";
+        }
 
       function getOffSet(){
         var _offset = 450;
